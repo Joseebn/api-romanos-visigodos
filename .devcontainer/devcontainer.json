@@ -1,0 +1,13 @@
+{
+    "name": "Slim PHP Container",
+    "dockerComposeFile": ["../docker-compose.yml"],
+    "service": "slim",
+    "workspaceFolder": "/var/www/html",
+    "extensions": [
+        "felixfbecker.php-debug",
+        "bmewburn.vscode-intelephense-client"
+    ],
+    "settings": {
+        "php.validate.executablePath": "/usr/bin/php"
+    }
+}

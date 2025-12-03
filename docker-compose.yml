@@ -1,0 +1,9 @@
+services:
+  slim:
+    build: .
+    container_name: api-romanos-visigodos    # <-- nombre lógico
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html

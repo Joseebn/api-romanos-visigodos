@@ -1,0 +1,30 @@
+
+# IDEs
+.idea/
+.vscode/
+
+# PHPUnit
+/coverage/
+/.phpunit.result.cache
+
+# Composer
+/vendor/
+
+# Logs
+/logs/*
+!/logs/README.md
+
+# Docker
+docker-compose.override.yml
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP cache
+.cache/
+
+# Node (si alguna vez agregas frontend)
+node_modules/

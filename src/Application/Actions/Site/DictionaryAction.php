@@ -2,39 +2,22 @@
 
 namespace App\Application\Actions\Site;
 
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Models\ArchitectureType;
+
 class DictionaryAction
 {
-    protected $dictionary = [];
-
-    public function __construct()
+    public function __invoke(Request $request, Response $response)
     {
-        // Initialize the dictionary with some default values
-        $this->dictionary = [
-            'hello' => 'A greeting or expression of goodwill.',
-            'world' => 'The earth, together with all of its countries and peoples.',
-            'php' => 'A popular general-purpose scripting language that is especially suited to web development.'
-        ];
+        $getArchitectureType = $this->getTerms();
+        $response->getBody()->write($getArchitectureType);
+        return $response;
     }
 
-    public function addEntry($word, $definition)
+    private function getTerms(): string
     {
-        $this->dictionary[$word] = $definition;
-    }
-
-    public function getDefinition($word)
-    {
-        return isset($this->dictionary[$word]) ? $this->dictionary[$word] : null;
-    }
-
-    public function removeEntry($word)
-    {
-        if (isset($this->dictionary[$word])) {
-            unset($this->dictionary[$word]);
-        }
-    }
-
-    public function getAllEntries()
-    {
-        return $this->dictionary;
+        $terms = ArchitectureType::first();
+        return $terms->name;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
 use Slim\App;
-use App\Controller\Site\DictionaryController;
-use App\Controller\Site\GalleryController;
-use App\Controller\Site\MonumentController;
-use App\Controller\Site\PostController;
+use App\Application\Actions\Site\DictionaryAction;
+use App\Application\Actions\Site\GalleryAction;
+use App\Application\Actions\Site\PostAction;
+use App\Application\Actions\Site\MonumentAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
@@ -29,7 +29,7 @@ return function (App $app) {
             $response->getBody()->write('news item: ' . $args['slug']);
             return $response;
         });
-        $group->get('/dictionary', DictionaryController::class);
+        $group->get('/dictionary', DictionaryAction::class);
         
         $group->get('/gallery', function (Request $request, Response $response) {
     	        $response->getBody()->write('all terms');

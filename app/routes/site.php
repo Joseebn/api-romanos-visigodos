@@ -1,8 +1,9 @@
 <?php
 
 use Slim\App;
-use App\Application\Actions\Site\DictionaryAction;
 use App\Application\Actions\Site\GalleryAction;
+use App\Application\Actions\Site\ListDictionaryTermsAction;
+use App\Application\Actions\Site\ShowDictionaryTermAction;
 use App\Application\Actions\Site\PostAction;
 use App\Application\Actions\Site\MonumentAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,6 +14,11 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 return function (App $app) {
 
     $app->group('/site', function (Group $group) {
+
+        // dictionary routes
+        $group->get('/dictionary', ListDictionaryTermsAction::class);
+        $group->get('/dictionary/{slug}', ShowDictionaryTermAction::class);
+
         $group->get('/posts', function (Request $request, Response $response) {
     	        $response->getBody()->write('all news');
 	        return $response;
@@ -29,7 +35,6 @@ return function (App $app) {
             $response->getBody()->write('news item: ' . $args['slug']);
             return $response;
         });
-        $group->get('/dictionary', DictionaryAction::class);
         
         $group->get('/gallery', function (Request $request, Response $response) {
     	        $response->getBody()->write('all terms');

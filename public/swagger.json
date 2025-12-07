@@ -1,3 +1,68 @@
 {
-    "openapi": "3.0.0"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Diccionario Artístico",
+    "version": "1.0.0",
+    "description": "Documentación de la API Slim para el diccionario"
+  },
+  "paths": {
+    "/site/dictionary": {
+      "get": {
+        "summary": "Obtener todos los términos",
+        "responses": {
+          "200": {
+            "description": "Lista de términos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "term": { "type": "string" },
+                      "definition": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/site/dictionary/{slug}": {
+      "get": {
+        "summary": "Obtener un término por slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Término encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "description": { "type": "string" },
+                    "term_path": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Término no encontrado"
+          }
+        }
+      }
+    }
+  }
 }

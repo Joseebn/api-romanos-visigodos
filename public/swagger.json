@@ -1,17 +1,126 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "API Diccionario Artístico",
+    "title": "API website Romanos y visigodos",
     "version": "1.0.0",
-    "description": "Documentación de la API Slim para el diccionario"
+    "description": "Documentation API website Romanos y visigodos."
   },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Enter your JWT obtained from /auth/login."
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
-    "/site/dictionary": {
-      "get": {
-        "summary": "Obtener todos los términos",
+    "/auth/login": {
+      "post": {
+        "summary": "User authentication",
+        "description": "Receives email and password, validates credentials and returns a JWT token along with user information",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Lista de términos",
+            "description": "Successful login. Returns JWT token and user data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "name": { "type": "string", "example": "Juan Pérez" },
+                        "email": { "type": "string", "example": "user@example.com" },
+                        "role": { "type": "string", "example": "admin" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Incorrect credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid credentials"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request body validation errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "example": {
+                        "email": "The email field is required",
+                        "password": "The password field is required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/site/dictionary": {
+      "get": {
+        "summary": "Get all terms",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "tags": ["Site"],
+        "responses": {
+          "200": {
+            "description": "List of terms",
             "content": {
               "application/json": {
                 "schema": {
@@ -27,13 +136,20 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
     "/site/dictionary/{slug}": {
       "get": {
-        "summary": "Obtener un término por slug",
+        "summary": "Get a term by slug",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "tags": ["Site"],
         "parameters": [
           {
             "name": "slug",
@@ -44,7 +160,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Término encontrado",
+            "description": "Found term",
             "content": {
               "application/json": {
                 "schema": {
@@ -59,7 +175,10 @@
             }
           },
           "404": {
-            "description": "Término no encontrado"
+            "description": "Term not found"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }

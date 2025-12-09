@@ -2,37 +2,32 @@
 
 namespace App\Application\Actions\Site;
 
+use App\Models\GalleryImage;
+
 class GalleryAction
 {
-    protected $galleryRepository;
-
-    public function __construct($galleryRepository)
+    public function __invoke($request, $response, $args)
     {
-        $this->galleryRepository = $galleryRepository;
+        $galleryData = $this->getGallery();
+        $response->getBody()->write(json_encode($galleryData));
+        return $response->withStatus(200)
+            ->withHeader('Content-Type', 'application/json');
     }
 
-    public function getAllGalleries()
+    private function getGallery(): array
     {
-        return $this->galleryRepository->getAll();
-    }
+        $gallery = GalleryImage::all();
 
-    public function getGalleryById($id)
-    {
-        return $this->galleryRepository->findById($id);
-    }
-
-    public function createGallery($data)
-    {
-        return $this->galleryRepository->create($data);
-    }
-
-    public function updateGallery($id, $data)
-    {
-        return $this->galleryRepository->update($id, $data);
-    }
-
-    public function deleteGallery($id)
-    {
-        return $this->galleryRepository->delete($id);
+        $galleryData = [];
+        foreach ($gallery as $image) {
+            $galleryData[] = [
+                'name' => $image->name,
+                'description' => $image->description,
+                'image_path' => $image->image_path,
+                'image_id' => $image->image_id,
+                'type' => $image->architectureType->name,
+            ];
+        }
+        return $galleryData;
     }
 }

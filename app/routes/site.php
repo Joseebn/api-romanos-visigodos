@@ -16,19 +16,12 @@ return function (App $app) {
 
     $app->group('/site', function (Group $site) {
 
-        /*$app->group('/auth', function (RouteCollectorProxy $group) {
-            $group->post('/login', AuthLoginAction::class);
-        });*/
-        
-        // dictionary routes
-        //$site->get('/dictionary', ListDictionaryTermsAction::class);
-        //$site->get('/dictionary/{slug}', ShowDictionaryTermAction::class);
-
         $site->group('/dictionary', function (Group $dictionary) {
             $dictionary->get('', ListDictionaryTermsAction::class);
             $dictionary->get('/{slug}', ShowDictionaryTermAction::class);
         });
 
+        $site->get('/gallery', GalleryAction::class);
 
         $site->get('/posts', function (Request $request, Response $response) {
     	        $response->getBody()->write('all news');
@@ -46,10 +39,6 @@ return function (App $app) {
             $response->getBody()->write('news item: ' . $args['slug']);
             return $response;
         });
-        
-        $site->get('/gallery', function (Request $request, Response $response) {
-    	        $response->getBody()->write('all terms');
-	        return $response;
-        });
+
     })->add(new AuthMiddleware());
 };

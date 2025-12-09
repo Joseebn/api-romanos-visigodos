@@ -11,4 +11,9 @@ class ArchitectureType extends Model
 
     protected $fillable = ['name'];
 
+    public function galleryImages()
+    {
+        return $this->hasMany(GalleryImage::class, 'type_id', 'id');
+    }
+
 }

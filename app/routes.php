@@ -19,6 +19,12 @@ return function (App $app) {
         return $response;
     });
 
+    $app->get('/', function ($request, $response) {
+    return $response
+        ->withHeader('Location', '/docs/index.html')
+        ->withStatus(301);
+    });
+
     $app->group('/auth', function (Group $group) {
         $group->post('/login', LoginAction::class);
     });

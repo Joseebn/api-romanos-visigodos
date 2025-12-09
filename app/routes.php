@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-// use App\Application\Actions\User\ListUsersAction;
-// use App\Application\Actions\User\ViewUserAction;
 use App\Application\Actions\Auth\LoginAction;
 use App\Application\Actions\Docs\SwaggerJsonAction;
 use Psr\Http\Message\ResponseInterface as Response;

@@ -16,4 +16,13 @@ class ArchitectureType extends Model
         return $this->hasMany(GalleryImage::class, 'type_id', 'id');
     }
 
+    public function monument()
+    {
+        return $this->hasMany(Monument::class, 'architecture_type_id', 'id');
+    }
+
+    public function post()
+    {
+        return $this->hasMany(Monument::class, 'architecture_type_id', 'id');
+    }
 }

@@ -3,10 +3,12 @@
 namespace App\Application\Actions\Site;
 
 use App\Models\GalleryImage;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 class GalleryAction
 {
-    public function __invoke($request, $response, $args)
+    public function __invoke(Request $request, Response $response): Response
     {
         $galleryData = $this->getGallery();
         $response->getBody()->write(json_encode($galleryData));

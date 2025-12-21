@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ArchitectureType extends Model
+class ButtonClickCount extends Model
 {
     use SoftDeletes;
 

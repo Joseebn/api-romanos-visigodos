@@ -216,6 +216,59 @@
           }
         }
       }
-    }    
+    },
+    "/site/button-event/{name}/clicks": {
+      "patch": {
+        "summary": "Register button click event",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "tags": ["Site"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Button click event registered successfully"
+          },
+          "400": {
+            "description": "Invalid slug format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "error" },
+                    "message": { "type": "string", "example": "Invalid slug format" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Button not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "error" },
+                    "message": { "type": "string", "example": "Button not found" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
   }
 }

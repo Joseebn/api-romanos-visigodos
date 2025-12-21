@@ -1,6 +1,7 @@
 <?php
 
 use Slim\App;
+use App\Application\Actions\Site\ButtonEventAction;
 use App\Application\Actions\Site\GalleryAction;
 use App\Application\Actions\Site\ListDictionaryTermsAction;
 use App\Application\Actions\Site\ShowDictionaryTermAction;
@@ -15,6 +16,8 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 return function (App $app) {
 
     $app->group('/site', function (Group $site) {
+
+        $site->patch('/button-event/{name}/clicks', ButtonEventAction::class);
 
         $site->group('/dictionary', function (Group $dictionary) {
             $dictionary->get('', ListDictionaryTermsAction::class);
@@ -39,6 +42,9 @@ return function (App $app) {
             $response->getBody()->write('news item: ' . $args['slug']);
             return $response;
         });
+
+        
+
 
     })->add(new AuthMiddleware());
 };
